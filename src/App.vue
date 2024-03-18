@@ -1,21 +1,75 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { RouterLink, RouterView } from "vue-router";
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
+  <section id="header">
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+      <div class="header-con">
+        <img src="./assets/img/Logo.jpg" alt="Logo" />
+        <ul class="navbar">
+          <li><RouterLink to="/">Task List</RouterLink></li>
+        </ul>
+      </div>
     </div>
-  </header>
-
+  </section>
   <RouterView />
 </template>
+
+<script>
+export default {
+  components: {
+    RouterLink,
+    RouterView,
+  },
+};
+</script>
+
+<style scoped>
+#header {
+  position: fixed;
+  width: 100%;
+}
+
+#header .wrapper {
+  max-width: 1920px;
+  width: 100%;
+  margin: 0 auto;
+  background: #ffffff;
+  filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04))
+    drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+}
+
+#header .header-con {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+#header .header-con ul {
+  display: flex;
+  gap: 20px;
+}
+
+#header .header-con img {
+  width: 50px;
+}
+
+#header .header-con a {
+  color: #1d1e20;
+  transition: 0.2s;
+  font-weight: 500;
+}
+
+#header .header-con a:hover {
+  opacity: 0.7;
+}
+
+@media screen and (max-width: 1920px) {
+  #header .header-con {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+</style>
