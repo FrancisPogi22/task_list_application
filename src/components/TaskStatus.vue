@@ -1,5 +1,5 @@
 <template>
-  <div class="task-status">
+  <div id="task-status">
     <p>Remaining Task: {{ remainingTask }}</p>
     <p>Completed Task:</p>
     <p>Total Task:</p>
@@ -18,7 +18,7 @@ export default {
 </script>
 
 <style>
-.task-status {
+#task-status {
   position: absolute;
   bottom: 0;
   padding: 20px;
@@ -28,14 +28,15 @@ export default {
   filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))
     drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
 }
-.task-status p {
+
+#task-status p {
   color: #ffffff;
   font-size: 15px;
   font-style: italic;
   font-weight: 500;
 }
 
-.task-status p:not(:last-child) {
+#task-status p:not(:last-child) {
   margin-bottom: 20px;
 }
 </style>
