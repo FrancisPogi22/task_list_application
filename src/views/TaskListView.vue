@@ -32,6 +32,7 @@
       </div>
     </div>
   </section>
+  <TaskStatus :taskList="taskList"/>
   <div v-if="showAddForm" class="backdrop">
     <AddTaskForm @close-form="closeAddForm" />
   </div>
@@ -39,6 +40,7 @@
 
 <script>
 import AddTaskForm from "../components/AddTaskForm.vue";
+import TaskStatus from "../components/TaskStatus.vue";
 
 export default {
   data() {
@@ -57,6 +59,7 @@ export default {
   },
   components: {
     AddTaskForm,
+    TaskStatus,
   },
   methods: {
     addTask() {
