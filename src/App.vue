@@ -1,12 +1,8 @@
-<script setup>
-import { RouterLink, RouterView } from "vue-router";
-</script>
-
 <template>
   <section id="header">
     <div class="wrapper">
       <div class="header-con">
-        <img src="./assets/img/Logo.jpg" alt="Logo" />
+        <img src="./assets/img/Logo.png" alt="Logo" />
         <ul class="navbar">
           <li><RouterLink to="/">Task List</RouterLink></li>
         </ul>
@@ -17,9 +13,11 @@ import { RouterLink, RouterView } from "vue-router";
 </template>
 
 <script>
+import { RouterLink, RouterView } from "vue-router";
+
 export default {
   components: {
-    RouterLink,
+    RouterLink, 
     RouterView,
   },
 };
@@ -29,15 +27,14 @@ export default {
 #header {
   position: fixed;
   width: 100%;
+  background: #ffffff;
+  filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 
 #header .wrapper {
   max-width: 1920px;
   width: 100%;
   margin: 0 auto;
-  background: #ffffff;
-  filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04))
-    drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 
 #header .header-con {
