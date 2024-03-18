@@ -1,13 +1,35 @@
 <template>
   <div class="modal-form">
     <div class="modal">
+      <div class="label-con">
+        <div class="label-header">
+          <p>Label</p>
+          <span>(optional)</span>
+        </div>
+        <div class="label-btn-con">
+          <div class="label">
+            <button
+              :class="[isPriority == 1 ? 'active' : 'not-active']"
+              @click="prioritizeTask"
+            >
+              prioritize
+            </button>
+          </div>
+        </div>
+      </div>
       <div class="field-con">
         <label for="title">Task Title</label>
-        <input type="text" placeholder="Enter Task Title" />
+        <input
+          type="text"
+          v-model="title"
+          @input="checkTitle"
+          placeholder="Enter Task Title"
+        />
+        <span class="error">{{ titleError }}</span>
       </div>
       <div class="btn-con">
         <button @click="$emit('close-form')">Close</button>
-        <button>Add Task</button>
+        <button @click="addTask">Add Task</button>
       </div>
     </div>
   </div>
@@ -15,8 +37,34 @@
 
 <script>
 export default {
+  props: ["taskList"],
   data() {
-    return {};
+    return {
+      title: "",
+      titleError: "",
+      isPriority: 0,
+    };
+  },
+  methods: {
+    addTask() {
+      if (this.title != "") {
+        this.taskList.push({
+          title: this.title,
+          status: 0,
+          isPriority: this.isPriority,
+          createdAt: new Date().toDateString(),
+        });
+        this.$emit("close-form");
+      } else this.titleError = "Please Enter Task Title.";
+    },
+    prioritizeTask() {
+      this.isPriority = this.isPriority == 1 ? 0 : 1;
+    },
+    checkTitle() {
+      return this.title != ""
+        ? (this.titleError = "")
+        : (this.titleError = "Please Enter Task Title.");
+    },
   },
 };
 </script>
@@ -27,6 +75,59 @@ export default {
   background: #ffffff;
 }
 
+.label-btn-con .active {
+  background: #16a34a;
+  color: #ffffff;
+}
+
+.label-btn-con .active:hover {
+  background: #15803d;
+}
+
+.label-header {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 5px;
+}
+
+.error {
+  font-size: 10px;
+  color: #dc2626;
+  font-style: italic;
+}
+
+.label-con {
+  margin-bottom: 20px;
+}
+
+.label-btn-con {
+  display: flex;
+}
+
+.label-con button {
+  border: none;
+  font-size: 12px;
+  background: #ffffff;
+  cursor: pointer;
+  border-radius: 20px;
+  padding: 4px 16px;
+  max-width: 100px;
+  filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))
+    drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+  text-align: center;
+  transition: 0.2s;
+  color: #222222;
+}
+
+.label-con button:hover {
+  background: #efefef;
+}
+
+.label-con span {
+  font-size: 10px;
+  font-style: italic;
+}
+
 .modal-form {
   position: relative;
   background: #ffffff;
@@ -34,7 +135,7 @@ export default {
   border-radius: 4px;
   width: 800px;
   z-index: 2;
-  padding: 40px 20px;
+  padding: 20px;
   filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
     drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
 }

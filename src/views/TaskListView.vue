@@ -10,10 +10,13 @@
           <div
             class="task"
             @click="viewTask(index)"
-            v-for="(task, index) in taskList"
+            v-for="(task, index) in sortedTaskList"
             :key="index"
           >
-            <p class="date">{{ task.createdAt }}</p>
+            <div class="task-status">
+              <p v-if="task.isPriority == 1" class="priority">prioritize</p>
+              <p class="date">{{ task.createdAt }}</p>
+            </div>
             <div class="task-desc-con">
               <input type="checkbox" />
               <p>{{ task.title }}</p>
@@ -25,7 +28,9 @@
               <button title="Edit Task">
                 <i class="bi bi-pencil-square"></i>
               </button>
-              <button title="Remove Task"><i class="bi bi-trash3"></i></button>
+              <button title="Remove Task" @click="removeTask(index)">
+                <i class="bi bi-trash3"></i>
+              </button>
             </div>
           </div>
         </div>
@@ -33,7 +38,7 @@
     </div>
   </section>
   <div v-if="showAddForm" class="backdrop">
-    <AddTaskForm @close-form="closeAddForm" />
+    <AddTaskForm :taskList="taskList" @close-form="closeAddForm" />
   </div>
 </template>
 
@@ -43,15 +48,7 @@ import AddTaskForm from "../components/AddTaskForm.vue";
 export default {
   data() {
     return {
-      taskList: [
-        {
-          title: "test",
-          createdAt: "2002/22/02",
-        },
-        { title: "test", createdAt: "test" },
-        { title: "test", createdAt: "test" },
-        { title: "test", createdAt: "test" },
-      ],
+      taskList: [],
       showAddForm: false,
     };
   },
@@ -62,10 +59,17 @@ export default {
     addTask() {
       this.showAddForm = true;
     },
+    removeTask(index) {
+      this.taskList[index].splice(index, 1);
+    },
     closeAddForm() {
       this.showAddForm = false;
     },
-    viewTask(index) {},
+  },
+  computed: {
+    sortedTaskList() {
+      return this.taskList.sort((a, b) => b.isPriority - a.isPriority);
+    },
   },
 };
 </script>
@@ -120,6 +124,8 @@ export default {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #888888;
 }
 
 #task-list .task-desc-con {
@@ -186,12 +192,22 @@ button {
   background: #ef4444;
 }
 
-#task-list .task .date {
+#task-list .task .task-status {
   color: #888888;
   font-size: 10px;
   position: absolute;
   left: 10px;
-  bottom: 10px;
+  align-items: center;
+  bottom: 5px;
+  display: flex;
+  gap: 10px;
+}
+
+#task-list .task .task-status .priority {
+  background: #ef4444;
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 10px;
 }
 
 #task-list .task-desc-con input {
