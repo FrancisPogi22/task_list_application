@@ -14,8 +14,8 @@
             :key="index"
           >
             <div class="task-status">
-              <p v-if="task.isPriority == 1" class="priority">prioritize</p>
-              <p v-if="task.status == 1" class="done-task">done</p>
+              <p v-if="task.isPriority == 1" class="priority">prioritized</p>
+              <p v-if="task.status == 1" class="done-task">completed</p>
               <p class="date">{{ task.createdAt }}</p>
             </div>
             <div class="task-desc-con">
@@ -50,7 +50,6 @@
 </template>
 
 <script>
-import { useRouter } from "vue-router";
 import AddTaskForm from "../components/TaskForm.vue";
 import TaskStatus from "../components/TaskStatus.vue";
 
@@ -107,7 +106,7 @@ export default {
 <style scoped>
 .backdrop {
   overflow: auto;
-  top: 69px;
+  top: 71px;
   position: fixed;
   background: rgba(0, 0, 0, 0.5);
   width: 100%;
