@@ -29,7 +29,9 @@
       </div>
       <div class="btn-con">
         <button @click="$emit('close-form')">Close</button>
-        <button @click="addTask">Add Task</button>
+        <button @click="isEditing ? editTask() : addTask()">
+          {{ isEditing ? "Edit Task" : "Add Task" }}
+        </button>
       </div>
     </div>
   </div>
@@ -37,17 +39,17 @@
 
 <script>
 export default {
-  props: ["taskList"],
+  props: ["taskList", "isEditing", "taskToEdit"],
   data() {
     return {
-      title: "",
+      title: this.taskToEdit ? this.taskToEdit["title"] : "",
       titleError: "",
-      isPriority: 0,
+      isPriority: this.taskToEdit ? this.taskToEdit["isPriority"] : 0,
     };
   },
   methods: {
     addTask() {
-      if (this.title != "") {
+      if (!this.checkInputField()) {
         this.taskList.push({
           title: this.title,
           status: 0,
@@ -55,15 +57,30 @@ export default {
           createdAt: new Date().toDateString(),
         });
         this.$emit("close-form");
-      } else this.titleError = "Please Enter Task Title.";
+      }
+    },
+    editTask() {
+      if (!this.checkInputField()) {
+        this.taskToEdit.title = this.title;
+        this.taskToEdit.isPriority = this.isPriority;
+        this.title = "";
+        this.$emit("close-form");
+      }
     },
     prioritizeTask() {
-      this.isPriority = this.isPriority == 1 ? 0 : 1;
+      this.isPriority ^= 1;
     },
     checkTitle() {
-      return this.title != ""
-        ? (this.titleError = "")
-        : (this.titleError = "Please Enter Task Title.");
+      if (this.title != "") {
+        this.titleError = "";
+      } else {
+        this.titleError = "Please Enter Task Title.";
+      }
+    },
+    checkInputField() {
+      if (!this.title != "") {
+        return (this.titleError = "Please Enter Task Title.");
+      }
     },
   },
 };
