@@ -9,23 +9,24 @@
         <div class="task-list">
           <div
             class="task"
-            @click="viewTask(index)"
+            @click="viewTask(task)"
             v-for="(task, index) in sortedTaskList"
             :key="index"
           >
             <div class="task-status">
               <p v-if="task.isPriority == 1" class="priority">prioritize</p>
+              <p v-if="task.status == 1" class="done-task">done</p>
               <p class="date">{{ task.createdAt }}</p>
             </div>
             <div class="task-desc-con">
-              <input type="checkbox" />
+              <input type="checkbox" @change="changeStatus(index)" />
               <p>{{ task.title }}</p>
             </div>
             <div class="btn-con">
-              <button title="Prioritize Task">
+              <button title="Prioritize Task" @click="prioritizeTask(index)">
                 <i class="bi bi-card-checklist"></i>
               </button>
-              <button title="Edit Task">
+              <button title="Edit Task" @click="editTask(task)">
                 <i class="bi bi-pencil-square"></i>
               </button>
               <button title="Remove Task" @click="removeTask(index)">
@@ -37,21 +38,29 @@
       </div>
     </div>
   </section>
-  <TaskStatus :taskList="taskList"/>
-  <div v-if="showAddForm" class="backdrop">
-    <AddTaskForm :taskList="taskList" @close-form="closeAddForm" />
+  <TaskStatus :taskList="taskList" />
+  <div v-if="showForm" class="backdrop">
+    <AddTaskForm
+      :taskList="taskList"
+      :isEditing="isEditing"
+      :taskToEdit="taskToEdit"
+      @close-form="closeForm"
+    />
   </div>
 </template>
 
 <script>
-import AddTaskForm from "../components/AddTaskForm.vue";
+import { useRouter } from "vue-router";
+import AddTaskForm from "../components/TaskForm.vue";
 import TaskStatus from "../components/TaskStatus.vue";
 
 export default {
   data() {
     return {
       taskList: [],
-      showAddForm: false,
+      showForm: false,
+      taskToEdit: null,
+      isEditing: false,
     };
   },
   components: {
@@ -60,13 +69,31 @@ export default {
   },
   methods: {
     addTask() {
-      this.showAddForm = true;
+      this.taskToEdit = null;
+      this.showForm = true;
+      this.isEditing = false;
+    },
+    changeStatus(index) {
+      this.taskList[index].status ^= 1;
+    },
+    editTask(task) {
+      this.taskToEdit = task;
+      this.showForm = true;
+      this.isEditing = true;
+    },
+    viewTask(task) {
+      //
+    },
+    prioritizeTask(index) {
+      this.taskList[index].isPriority ^= 1;
     },
     removeTask(index) {
-      this.taskList[index].splice(index, 1);
+      this.taskList.splice(index, 1);
     },
-    closeAddForm() {
-      this.showAddForm = false;
+    closeForm() {
+      this.taskToEdit = null;
+      this.showForm = false;
+      this.isEditing = false;
     },
   },
   computed: {
@@ -91,6 +118,13 @@ export default {
   max-width: 1440px;
   width: 100%;
   margin: 0 auto;
+}
+
+.done-task {
+  background: #16a34a;
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 10px;
 }
 
 #task-list .task-list-con {

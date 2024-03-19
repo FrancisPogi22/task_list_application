@@ -17,7 +17,7 @@ import { RouterLink, RouterView } from "vue-router";
 
 export default {
   components: {
-    RouterLink, 
+    RouterLink,
     RouterView,
   },
 };
@@ -28,7 +28,8 @@ export default {
   position: fixed;
   width: 100%;
   background: #ffffff;
-  filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+  filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04))
+    drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 
 #header .wrapper {
