@@ -3,7 +3,7 @@
     <div class="modal">
       <div class="label-con">
         <div class="label-header">
-          <p>Label</p>
+          <p>Tags</p>
           <span>(optional)</span>
         </div>
         <div class="label-btn-con">
@@ -27,6 +27,16 @@
         />
         <span class="error">{{ titleError }}</span>
       </div>
+      <div class="field-con">
+        <label for="title">Task Description</label>
+        <input
+          type="text"
+          v-model="description"
+          @input="checkDescription"
+          placeholder="Enter Task Description"
+        />
+        <span class="error">{{ descriptionError }}</span>
+      </div>
       <div class="btn-con">
         <button @click="$emit('close-form')">Close</button>
         <button @click="isEditing ? editTask() : addTask()">
@@ -42,34 +52,52 @@ export default {
   props: ["taskList", "isEditing", "taskToEdit"],
   data() {
     return {
-      title: this.taskToEdit ? this.taskToEdit["title"] : "",
+      title: this.taskToEdit ? this.taskToEdit.task.title : "",
+      description: this.taskToEdit ? this.taskToEdit.task.description : "",
+      isPriority: this.taskToEdit ? this.taskToEdit.task.isPriority : 0,
       titleError: "",
-      isPriority: this.taskToEdit ? this.taskToEdit["isPriority"] : 0,
+      descriptionError: "",
     };
   },
   methods: {
+    // This method is for adding a new task object and store in local storage and in vue task list storage
     addTask() {
-      if (!this.checkInputField()) {
-        this.taskList.push({
+      if (this.checkInputField()) return;
+
+      let taskList = JSON.parse(localStorage.getItem("taskList")),
+        task = {
           title: this.title,
+          description: this.description,
           status: 0,
           isPriority: this.isPriority,
           createdAt: new Date().toDateString(),
-        });
-        this.$emit("close-form");
-      }
+        };
+
+      taskList.push(task);
+      localStorage.setItem("taskList", JSON.stringify(taskList));
+      this.taskList.push(task);
+      this.$emit("close-form");
     },
+    // This method is for editing a specific task
     editTask() {
-      if (!this.checkInputField()) {
-        this.taskToEdit.title = this.title;
-        this.taskToEdit.isPriority = this.isPriority;
-        this.title = "";
-        this.$emit("close-form");
-      }
+      if (this.checkInputField()) return;
+
+      let taskList = JSON.parse(localStorage.getItem("taskList"));
+
+      this.taskToEdit.task.title = this.title;
+      this.taskToEdit.task.description = this.description;
+      this.taskToEdit.task.isPriority = this.isPriority;
+      taskList[this.taskToEdit.index] = this.taskToEdit.task;
+      localStorage.setItem("taskList", JSON.stringify(taskList));
+      this.title = "";
+      this.description = "";
+      this.$emit("close-form");
     },
+    // this method is for prioritizing the specific task
     prioritizeTask() {
       this.isPriority ^= 1;
     },
+    // This method is for the checking the task title
     checkTitle() {
       if (this.title != "") {
         this.titleError = "";
@@ -77,9 +105,20 @@ export default {
         this.titleError = "Please Enter Task Title.";
       }
     },
+    // This method is for the checking the task description
+    checkDescription() {
+      if (this.description != "") {
+        this.descriptionError = "";
+      } else {
+        this.descriptionError = "Please Enter Task Description.";
+      }
+    },
+    // This method is for the checking the all input field
     checkInputField() {
       if (!this.title != "") {
         return (this.titleError = "Please Enter Task Title.");
+      } else if (!this.description != "") {
+        return (this.descriptionError = "Please Enter Task Description.");
       }
     },
   },
@@ -149,7 +188,7 @@ export default {
   position: relative;
   background: #ffffff;
   margin: 40px auto;
-  border-radius: 4px;
+  border-radius: 5px;
   width: 800px;
   z-index: 2;
   padding: 20px;
@@ -175,7 +214,7 @@ export default {
   cursor: pointer;
   padding: 12px 16px;
   transition: 0.2s;
-  border-radius: 4px;
+  border-radius: 5px;
 }
 
 .btn-con button:first-child {
