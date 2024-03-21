@@ -11,15 +11,19 @@
 export default {
   props: ["taskList"],
   computed: {
+    // This method is calculating all priority task in list
     prioritizeTask() {
       return this.taskList.filter((task) => task.isPriority == 1).length;
     },
+    // This method is calculating all remaining task in list
     remainingTask() {
       return this.taskList.filter((task) => task.status == 0).length;
     },
+    // This method is calculating all completed task in list
     completedTask() {
       return this.taskList.filter((task) => task.status == 1).length;
     },
+    // This method is calculating all total task in list
     totalTask() {
       return this.taskList.filter((task) => !task.completed).length;
     },
@@ -37,7 +41,7 @@ export default {
   padding: 20px;
   margin: 10px;
   background: #5025d1c4;
-  border-radius: 4px;
+  border-radius: 5px;
   filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))
     drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
 }
