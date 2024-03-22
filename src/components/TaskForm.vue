@@ -76,22 +76,38 @@ export default {
       taskList.push(task);
       localStorage.setItem("taskList", JSON.stringify(taskList));
       this.taskList.push(task);
+      showSuccessMessage("Task successfully added.");
       this.$emit("close-form");
     },
     // This method is for editing a specific task
     editTask() {
       if (this.checkInputField()) return;
 
-      let taskList = JSON.parse(localStorage.getItem("taskList"));
+      let { title, description, isPriority } = this,
+        { taskToEdit } = this;
 
-      this.taskToEdit.task.title = this.title;
-      this.taskToEdit.task.description = this.description;
-      this.taskToEdit.task.isPriority = this.isPriority;
-      taskList[this.taskToEdit.index] = this.taskToEdit.task;
-      localStorage.setItem("taskList", JSON.stringify(taskList));
-      this.title = "";
-      this.description = "";
-      this.$emit("close-form");
+      if (
+        taskToEdit.task.title == title &&
+        taskToEdit.task.description == description &&
+        taskToEdit.task.isPriority == isPriority
+      )
+        return showInfoMessage("No changes were made.");
+
+      confirmMessage("edit this", "Edit").then((result) => {
+        if (!result.isConfirmed) return;
+
+        let taskList = JSON.parse(localStorage.getItem("taskList"));
+
+        taskToEdit.task.title = title;
+        taskToEdit.task.description = description;
+        taskToEdit.task.isPriority = isPriority;
+        taskList[taskToEdit.index] = taskToEdit.task;
+        localStorage.setItem("taskList", JSON.stringify(taskList));
+        this.title = "";
+        this.description = "";
+        showSuccessMessage("Task successfully edited.");
+        this.$emit("close-form");
+      });
     },
     // this method is for prioritizing the specific task
     prioritizeTask() {
@@ -99,27 +115,20 @@ export default {
     },
     // This method is for the checking the task title
     checkTitle() {
-      if (this.title != "") {
-        this.titleError = "";
-      } else {
-        this.titleError = "Please Enter Task Title.";
-      }
+      if (this.title != "") this.titleError = "";
+      else this.titleError = "Please Enter Task Title.";
     },
     // This method is for the checking the task description
     checkDescription() {
-      if (this.description != "") {
-        this.descriptionError = "";
-      } else {
-        this.descriptionError = "Please Enter Task Description.";
-      }
+      if (this.description != "") this.descriptionError = "";
+      else this.descriptionError = "Please Enter Task Description.";
     },
     // This method is for the checking the all input field
     checkInputField() {
-      if (!this.title != "") {
+      if (!this.title != "")
         return (this.titleError = "Please Enter Task Title.");
-      } else if (!this.description != "") {
+      else if (!this.description != "")
         return (this.descriptionError = "Please Enter Task Description.");
-      }
     },
   },
 };

@@ -150,4 +150,11 @@ export default {
   color: #000000;
   font-weight: 500;
 }
+
+@media screen and (max-width: 1920px) {
+  #task-details .task-details-con {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
 </style>

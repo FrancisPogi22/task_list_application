@@ -69,9 +69,8 @@ import TaskStatus from "../components/TaskStatus.vue";
 export default {
   // Before the to create the component it will be setting the taskList in local storage
   beforeCreate() {
-    if (!localStorage.getItem("taskList")) {
+    if (!localStorage.getItem("taskList"))
       localStorage.setItem("taskList", JSON.stringify([]));
-    }
   },
   // If the component created storing the taskList array in local storage into vue task list storage
   created() {
@@ -108,12 +107,25 @@ export default {
       switch (action) {
         case "status":
           this.taskList[index].status ^= 1;
+          showSuccessMessage("Task successfully changed status.");
           break;
         case "priority":
-          this.taskList[index].isPriority ^= 1;
+          this.taskList[index].isPriority =
+            this.taskList[index].isPriority == 0 ? 1 : 0;
+
+          if (this.taskList[index].isPriority == 1)
+            showSuccessMessage("Task successfully prioritized.");
+          else showSuccessMessage("Priority removed from task.");
           break;
+
         case "remove":
-          this.taskList.splice(index, 1);
+          confirmMessage("remove this", "Remove").then((result) => {
+            if (!result.isConfirmed) return;
+
+            this.taskList.splice(index, 1);
+            localStorage.setItem("taskList", JSON.stringify(this.taskList));
+            showSuccessMessage("Task successfully removed.");
+          });
           break;
       }
 
@@ -121,8 +133,17 @@ export default {
     },
     // Resetting all task list storage
     emptyTask() {
-      this.taskList = [];
-      localStorage.setItem("taskList", JSON.stringify(this.taskList));
+      let taskList = JSON.parse(localStorage.getItem("taskList"));
+
+      if (taskList.length == 0) return showInfoMessage("No tasks listed.");
+
+      confirmMessage("remove all", "Remove").then((result) => {
+        if (!result.isConfirmed) return;
+
+        this.taskList = [];
+        localStorage.setItem("taskList", JSON.stringify([]));
+        showSuccessMessage("All task successfully removed.");
+      });
     },
     // Redirect to the task details page and pass the index of the specific task.
     viewTask(index) {

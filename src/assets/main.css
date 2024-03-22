@@ -17,3 +17,21 @@ section {
 body {
   background: #f1f5f9;
 }
+
+.toast {
+  opacity: 1 !important;
+  box-shadow: none !important;
+}
+
+.toast-title,
+.toast-message {
+  color: #ffffff;
+}
+
+.toast-success {
+  background: #28a745;
+}
+
+.toast-info {
+  background: #673de6;
+}
