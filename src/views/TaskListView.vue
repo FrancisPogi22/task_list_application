@@ -320,6 +320,29 @@ button {
   background: var(--color-hover-purple);
 }
 
+#task-list .task-con{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+#task-list .task-con-empty  {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#task-list .task-con-empty p {
+  padding: 20px 0;
+}
+
+#task-list .task-con-empty img {
+  width: 250px;
+}
+
 @media screen and (max-width: 1920px) {
   #task-list .task-list-con {
     padding-left: 30px;

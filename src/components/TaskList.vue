@@ -18,49 +18,58 @@
         </select>
       </div>
     </div>
-    <div class="task" v-for="(task, index) in filteredTaskList" :key="index">
-      <span class="view-task" @click="viewTask(index)"
-        >View Task Details >>
-      </span>
-      <div class="task-status">
-        <p class="date">Created On: {{ task.createdAt }}</p>
-        <p v-if="task.isPriority == 1" class="priority">prioritized</p>
-        <p v-if="task.status == 1" class="done-task">completed</p>
+    <div class="task-con" v-if="taskList.length != 0">
+      <div class="task" v-for="(task, index) in filteredTaskList" :key="index">
+        <span class="view-task" @click="viewTask(index)"
+          >View Task Details >>
+        </span>
+        <div class="task-status">
+          <p class="date">Created On: {{ task.createdAt }}</p>
+          <p v-if="task.isPriority == 1" class="priority">prioritized</p>
+          <p v-if="task.status == 1" class="done-task">completed</p>
+        </div>
+        <div class="task-desc-con">
+          <input
+            title="Mark As Complete"
+            type="checkbox"
+            :checked="selectedTasks.includes(index)"
+            @change="toggleTaskSelection(index)"
+          />
+          <p>{{ task.title }}</p>
+        </div>
+        <div class="btn-con">
+          <button
+            title="Prioritize Task"
+            @click="manageTask('priority', index)"
+          >
+            <i class="bi bi-card-checklist"></i>
+          </button>
+          <button title="Edit Task" @click="$emit('editTask', task, index)">
+            <i class="bi bi-pencil-square"></i>
+          </button>
+          <button title="Delete Task" @click="manageTask('delete', index)">
+            <i class="bi bi-trash3"></i>
+          </button>
+          <button
+            v-if="task.status == 0"
+            title="Mark As Complete"
+            @click="manageTask('complete', index)"
+          >
+            <i class="bi bi-check-lg"></i>
+          </button>
+          <button
+            v-if="task.status == 1"
+            title="Mark As Incomplete"
+            @click="manageTask('revert', index)"
+          >
+            <i class="bi bi-arrow-repeat"></i>
+          </button>
+        </div>
       </div>
-      <div class="task-desc-con">
-        <input
-          title="Mark As Complete"
-          type="checkbox"
-          :checked="selectedTasks.includes(index)"
-          @change="toggleTaskSelection(index)"
-        />
-        <p>{{ task.title }}</p>
-      </div>
-      <div class="btn-con">
-        <button title="Prioritize Task" @click="manageTask('priority', index)">
-          <i class="bi bi-card-checklist"></i>
-        </button>
-        <button title="Edit Task" @click="$emit('editTask', task, index)">
-          <i class="bi bi-pencil-square"></i>
-        </button>
-        <button title="Delete Task" @click="manageTask('delete', index)">
-          <i class="bi bi-trash3"></i>
-        </button>
-        <button
-          v-if="task.status == 0"
-          title="Complete Task"
-          @click="manageTask('complete', index)"
-        >
-          <i class="bi bi-check-lg"></i>
-        </button>
-        <button
-          v-if="task.status == 1"
-          title="Revert To Incomplete"
-          @click="manageTask('revert', index)"
-        >
-          <i class="bi bi-arrow-repeat"></i>
-        </button>
-      </div>
+    </div>
+    <div class="task-con-empty" v-else>
+      <img src="../assets/img/Empty_Task.svg" alt="Image" />
+      <p>No current task.</p>
     </div>
   </div>
 </template>
