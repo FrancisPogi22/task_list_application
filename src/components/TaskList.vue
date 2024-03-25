@@ -75,6 +75,8 @@ export default {
     };
   },
   methods: {
+    // Manages tasks based on the given action and index
+    // @param (action) - action perform on the task such as ('priority', 'delete', 'complete', 'revert')
     manageTask(action, index) {
       switch (action) {
         case "priority":
@@ -122,6 +124,8 @@ export default {
 
       localStorage.setItem("taskList", JSON.stringify(this.taskList));
     },
+    // This function toggles the selection status of a task
+    // @param (index) - index of the task for which selection of status will be toggled
     toggleTaskSelection(index) {
       if (this.selectedTasks.includes(index))
         this.selectedTasks = this.selectedTasks.filter((i) => i != index);
@@ -133,6 +137,10 @@ export default {
       if (action == "Delete") this.deleteSelectedTasks();
       else if (action == "Complete") this.completeSelectedTasks();
     },
+    /** Deletes the tasks that are currently selected
+        If no tasks are selected, the function returns without performing any action
+        Show confirmation message before performing the action
+    **/
     deleteSelectedTasks() {
       if (this.selectedTasks.length == 0) return;
 

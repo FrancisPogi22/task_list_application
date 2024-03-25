@@ -16,6 +16,9 @@
 </template>
 
 <script>
+
+// This component computes task statistics based on the given list, including priority tasks, remaining tasks, completed tasks, and total tasks.
+
 export default {
   props: ["taskList"],
   computed: {

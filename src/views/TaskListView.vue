@@ -25,17 +25,23 @@
 </template>
 
 <script>
+// Importing the AddTaskForm, and TaskStatus component
 import AddTaskForm from "../components/TaskForm.vue";
 import TaskStatus from "../components/TaskStatus.vue";
 
 export default {
+
+  // Initializing the taskList in localStorage if it does not exist
   beforeCreate() {
     if (!localStorage.getItem("taskList"))
       localStorage.setItem("taskList", JSON.stringify([]));
   },
+
+  //retrieving data from a localStorage and assigning it to the taskList property
   created() {
     this.taskList = JSON.parse(localStorage.getItem("taskList"));
   },
+  
   data() {
     return {
       taskList: [],
@@ -44,26 +50,36 @@ export default {
       isEditing: false,
     };
   },
+
+  // Registering the components AddTaskForm and TaskStatus
   components: {
     AddTaskForm,
     TaskStatus,
   },
   methods: {
+
+    // A method for adding a new task
     addTask() {
       this.taskToEdit = null;
       this.showForm = true;
       this.isEditing = false;
     },
+    
+    // A method for editing a new task and will display a showForm for editing
     editTask(task, index) {
       this.taskToEdit = { task, index };
       this.showForm = true;
       this.isEditing = true;
     },
+
+    // A method for closing the form when adding a new task
     closeForm() {
       this.taskToEdit = null;
       this.showForm = false;
       this.isEditing = false;
     },
+
+    // A method that will handle if there is no task and actions based on selected filter
     emptyTask() {
       let taskList = JSON.parse(localStorage.getItem("taskList")),
         selectedFilter = document.getElementById("filter").value;
