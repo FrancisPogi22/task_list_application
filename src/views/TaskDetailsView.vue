@@ -41,7 +41,6 @@
 <script>
 export default {
   props: ["id"],
-  // If the component is created the task list in local storage will pass the specific task that have this.id in this.task
   created() {
     this.task = JSON.parse(localStorage.getItem("taskList"))[this.id];
   },
@@ -80,7 +79,7 @@ export default {
 #task-details .task-desc-con p:last-child,
 #task-details .task-status-con .task-status,
 #task-details .task-details-header-con {
-  background: #ffffff;
+  background: var(--color-white);
   padding: 20px;
   border-radius: 5px;
   filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))
@@ -110,7 +109,7 @@ export default {
 }
 
 #task-details .completed {
-  background: #16a34a;
+  background: var(--color-green);
 }
 
 #task-details .not-completed,
@@ -119,11 +118,11 @@ export default {
 }
 
 #task-details .prioritized {
-  background: #ef4444;
+  background: var(--color-red);
 }
 
 #task-details .task-status p {
-  color: #ffffff;
+  color: var(--color-white);
   padding: 4px 10px;
   font-size: 12px;
   border-radius: 20px;
