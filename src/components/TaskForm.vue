@@ -49,6 +49,9 @@
 
 <script>
 export default {
+
+  // This component handles task data, including title, description, and priority status, for editing purposes.
+
   props: ["taskList", "isEditing", "taskToEdit"],
   data() {
     return {
@@ -59,7 +62,11 @@ export default {
       descriptionError: "",
     };
   },
+
   methods: {
+
+// This method adds a new task to the task list after validating input fields.
+
     addTask() {
       if (this.checkInputField()) return;
 
@@ -78,7 +85,11 @@ export default {
       showSuccessMessage("Task successfully added.");
       this.$emit("close-form");
     },
+
     editTask() {
+
+      // This method edits an existing task after validating input fields and confirming changes.
+
       if (this.checkInputField()) return;
 
       let { title, description, isPriority } = this,
@@ -107,9 +118,13 @@ export default {
         this.$emit("close-form");
       });
     },
+
+    // This method toggles the priority status of a task.
     prioritizeTask() {
       this.isPriority ^= 1;
     },
+
+    // These methods validate the title and description fields, displaying errors if they are empty.
     checkTitle() {
       if (this.title != "") this.titleError = "";
       else this.titleError = "Please Enter Task Title.";
@@ -118,6 +133,8 @@ export default {
       if (this.description != "") this.descriptionError = "";
       else this.descriptionError = "Please Enter Task Description.";
     },
+    
+    // This method checks if any input fields are empty and returns true if they are
     checkInputField() {
       if (!this.title != "")
         return (this.titleError = "Please Enter Task Title.");
