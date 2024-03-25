@@ -10,6 +10,18 @@
   font-family: "Montserrat", sans-serif;
 }
 
+:root {
+  --color-white: #ffffff;
+  --color-light-gray: #888888;
+  --color-red: #ef4444;
+  --color-purple: #673de6;
+  --color-green: #16a34a;
+  --color-black: #222222;
+
+  --color-hover-purple: #5025d1;
+  --color-hover-red: #dc2626;
+}
+
 section {
   display: flex;
 }
@@ -25,7 +37,7 @@ body {
 
 .toast-title,
 .toast-message {
-  color: #ffffff;
+  color: var(--color-white);
 }
 
 .toast-success {
@@ -33,5 +45,10 @@ body {
 }
 
 .toast-info {
-  background: #673de6;
+  background: var(--color-purple);
+}
+
+.toast-title,
+.toast-message {
+  font-size: 14px;
 }

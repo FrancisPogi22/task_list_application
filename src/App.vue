@@ -2,7 +2,9 @@
   <section id="header">
     <div class="wrapper">
       <div class="header-con">
-        <img src="./assets/img/Logo.png" alt="Logo" />
+        <RouterLink to="/"
+          ><img src="./assets/img/Logo.png" alt="Logo"
+        /></RouterLink>
         <ul class="navbar">
           <li><RouterLink to="/">Task List</RouterLink></li>
         </ul>
@@ -25,9 +27,10 @@ export default {
 
 <style scoped>
 #header {
+  z-index: 9;
   position: fixed;
   width: 100%;
-  background: #ffffff;
+  background: var(--color-white);
   filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04))
     drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }

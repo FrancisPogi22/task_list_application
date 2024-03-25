@@ -60,7 +60,6 @@ export default {
     };
   },
   methods: {
-    // This method is for adding a new task object and store in local storage and in vue task list storage
     addTask() {
       if (this.checkInputField()) return;
 
@@ -79,7 +78,6 @@ export default {
       showSuccessMessage("Task successfully added.");
       this.$emit("close-form");
     },
-    // This method is for editing a specific task
     editTask() {
       if (this.checkInputField()) return;
 
@@ -109,21 +107,17 @@ export default {
         this.$emit("close-form");
       });
     },
-    // this method is for prioritizing the specific task
     prioritizeTask() {
       this.isPriority ^= 1;
     },
-    // This method is for the checking the task title
     checkTitle() {
       if (this.title != "") this.titleError = "";
       else this.titleError = "Please Enter Task Title.";
     },
-    // This method is for the checking the task description
     checkDescription() {
       if (this.description != "") this.descriptionError = "";
       else this.descriptionError = "Please Enter Task Description.";
     },
-    // This method is for the checking the all input field
     checkInputField() {
       if (!this.title != "")
         return (this.titleError = "Please Enter Task Title.");
@@ -137,16 +131,16 @@ export default {
 <style scoped>
 .modal {
   padding: 20px;
-  background: #ffffff;
+  background: var(--color-white);
 }
 
 .label-btn-con .active {
-  background: #16a34a;
-  color: #ffffff;
+  background: var(--color-red);
+  color: var(--color-white);
 }
 
 .label-btn-con .active:hover {
-  background: #15803d;
+  background: var(--color-hover-red);
 }
 
 .label-header {
@@ -157,7 +151,7 @@ export default {
 
 .error {
   font-size: 10px;
-  color: #dc2626;
+  color: var(--color-hover-red);
   font-style: italic;
 }
 
@@ -172,7 +166,7 @@ export default {
 .label-con button {
   border: none;
   font-size: 12px;
-  background: #ffffff;
+  background: var(--color-white);
   cursor: pointer;
   border-radius: 20px;
   padding: 4px 16px;
@@ -181,7 +175,7 @@ export default {
     drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
   text-align: center;
   transition: 0.2s;
-  color: #222222;
+  color: var(--color-black);
 }
 
 .label-con button:hover {
@@ -195,7 +189,7 @@ export default {
 
 .modal-form {
   position: relative;
-  background: #ffffff;
+  background: var(--color-white);
   margin: 40px auto;
   border-radius: 5px;
   width: 800px;
@@ -209,6 +203,7 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-bottom: 20px;
 }
 
 .btn-con {
@@ -224,10 +219,12 @@ export default {
   padding: 12px 16px;
   transition: 0.2s;
   border-radius: 5px;
+  font-weight: 500;
 }
 
 .btn-con button:first-child {
-  background: #ffffff;
+  background: var(--color-white);
+  color: var(--color-black);
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.16);
 }
 
@@ -236,17 +233,17 @@ export default {
 }
 
 .btn-con button:last-child {
-  background: #673de6;
-  color: #ffffff;
+  background: var(--color-purple);
+  color: var(--color-white);
 }
 
 .btn-con button:last-child:hover {
-  background: #5025d1;
+  background: var(--color-hover-purple);
 }
 
 .field-con input {
   border-radius: 5px;
-  border: 1px solid #888888;
+  border: 1px solid var(--color-light-gray);
   padding: 10px;
 }
 </style>

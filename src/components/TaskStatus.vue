@@ -1,9 +1,17 @@
 <template>
   <div v-if="taskList.length > 0" id="task-status">
-    <p>Prioritize Task: {{ prioritizeTask }}</p>
-    <p>Remaining Task: {{ remainingTask }}</p>
-    <p>Completed Task: {{ completedTask }}</p>
-    <p>Total Task: {{ totalTask }}</p>
+    <p>
+      Prioritize<span>{{ prioritizeTask }}</span>
+    </p>
+    <p>
+      Completed<span>{{ completedTask }}</span>
+    </p>
+    <p>
+      Remaining<span>{{ remainingTask }}</span>
+    </p>
+    <p>
+      Total <span>{{ totalTask }}</span>
+    </p>
   </div>
 </template>
 
@@ -11,19 +19,15 @@
 export default {
   props: ["taskList"],
   computed: {
-    // This method is calculating all priority task in list
     prioritizeTask() {
       return this.taskList.filter((task) => task.isPriority == 1).length;
     },
-    // This method is calculating all remaining task in list
     remainingTask() {
       return this.taskList.filter((task) => task.status == 0).length;
     },
-    // This method is calculating all completed task in list
     completedTask() {
       return this.taskList.filter((task) => task.status == 1).length;
     },
-    // This method is calculating all total task in list
     totalTask() {
       return this.taskList.filter((task) => !task.completed).length;
     },
@@ -34,12 +38,13 @@ export default {
 <style>
 #task-status {
   position: absolute;
-  bottom: 0;
+  bottom: 10px;
+  left: 10px;
+  width: 180px;
   display: flex;
   flex-direction: column;
   gap: 20px;
   padding: 20px;
-  margin: 10px;
   background: #5025d1c4;
   border-radius: 5px;
   filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))
@@ -47,8 +52,10 @@ export default {
 }
 
 #task-status p {
-  color: #ffffff;
+  color: var(--color-white);
   font-size: 14px;
   font-weight: 500;
+  display: flex;
+  justify-content: space-between;
 }
 </style>

@@ -1,11 +1,11 @@
-import './assets/main.css'
+import "./assets/main.css";
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router";
+import TaskList from "./components/TaskList.vue";
 
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
+const app = createApp(App);
 
-const app = createApp(App)
-
-app.use(router)
-
-app.mount('#app')
+app.component("TaskList", TaskList);
+app.use(router);
+app.mount("#app");
