@@ -37,7 +37,7 @@ export default {
 
 <style>
 #task-status {
-  position: absolute;
+  position: fixed;
   bottom: 10px;
   left: 10px;
   width: 180px;
