@@ -25,6 +25,7 @@
 </template>
 
 <script>
+// Importing the AddTaskForm, and TaskStatus component
 import AddTaskForm from "../components/TaskForm.vue";
 import TaskStatus from "../components/TaskStatus.vue";
 
