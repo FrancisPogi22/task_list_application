@@ -145,6 +145,11 @@ export default {
         this.selectedTasks = this.selectedTasks.filter((i) => i != index);
       else this.selectedTasks.push(index);
     },
+    /**
+      * Retrieves the selected action from the DOM and performs the corresponding bulk operation on the selected tasks. 
+      * If the selected action is "Delete", it calls the deleteSelectedTasks() method.
+      * If the selected action is "Complete", it calls the completeSelectedTasks() method.
+    */
     applyBulkAction() {
       let action = document.getElementById("action").value;
 
