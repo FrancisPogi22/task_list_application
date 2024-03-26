@@ -59,6 +59,7 @@ export default {
       descriptionError: "",
     };
   },
+  // Method to add a new task
   methods: {
     addTask() {
       if (this.checkInputField()) return;
@@ -78,6 +79,7 @@ export default {
       showSuccessMessage("Task successfully added.");
       this.$emit("close-form");
     },
+    // Method to edit an existing task
     editTask() {
       if (this.checkInputField()) return;
 
@@ -107,17 +109,21 @@ export default {
         this.$emit("close-form");
       });
     },
+    // Method to toggle task priority
     prioritizeTask() {
       this.isPriority ^= 1;
     },
+     // Method to check if title input is valid
     checkTitle() {
       if (this.title != "") this.titleError = "";
       else this.titleError = "Please Enter Task Title.";
     },
+    // Method to check if description input is valid
     checkDescription() {
       if (this.description != "") this.descriptionError = "";
       else this.descriptionError = "Please Enter Task Description.";
     },
+     // Method to check if any input field is empty
     checkInputField() {
       if (!this.title != "")
         return (this.titleError = "Please Enter Task Title.");
