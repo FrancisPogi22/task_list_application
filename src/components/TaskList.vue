@@ -84,8 +84,11 @@ export default {
     };
   },
   methods: {
-    // Manages tasks based on the given action and index
-    // @param (action) - action perform on the task such as ('priority', 'delete', 'complete', 'revert')
+    /*
+      Manages tasks based on the given action and index
+      @param (action) - action perform on the task such as ('priority', 'delete', 'complete', 'revert')
+      @param (index) - index of the task
+    */
     manageTask(action, index) {
       switch (action) {
         case "priority":
@@ -130,11 +133,13 @@ export default {
           );
           break;
       }
-
+      // Store the updated taskList in browser's localStorage
       localStorage.setItem("taskList", JSON.stringify(this.taskList));
     },
-    // This function toggles the selection status of a task
-    // @param (index) - index of the task for which selection of status will be toggled
+    /* 
+      This function toggles the selection status of a task
+      @param (index) - index of the task for which selection of status will be toggled
+    */
     toggleTaskSelection(index) {
       if (this.selectedTasks.includes(index))
         this.selectedTasks = this.selectedTasks.filter((i) => i != index);
@@ -146,10 +151,11 @@ export default {
       if (action == "Delete") this.deleteSelectedTasks();
       else if (action == "Complete") this.completeSelectedTasks();
     },
-    /** Deletes the tasks that are currently selected
-        If no tasks are selected, the function returns without performing any action
-        Show confirmation message before performing the action
-    **/
+    /* 
+      Deletes the tasks that are currently selected
+      If no tasks are selected, the function returns without performing any action
+      Show success message after performing the action
+    */
     deleteSelectedTasks() {
       if (this.selectedTasks.length == 0) return;
 
@@ -165,6 +171,11 @@ export default {
         showSuccessMessage("Selected tasks successfully deleted.");
       });
     },
+    /*
+      Marks the selected tasks as completed
+      If no tasks are selected, the function returns without performing any action
+      Show success message after performing the action
+    */
     completeSelectedTasks() {
       if (this.selectedTasks.length == 0) return;
 
@@ -182,22 +193,30 @@ export default {
       this.resetBulkAction();
       showSuccessMessage("Selected tasks successfully marked as completed.");
     },
+    // Resets the bulk action
     resetBulkAction() {
       localStorage.setItem("taskList", JSON.stringify(this.taskList));
       document.getElementById("action").selectedIndex = 0;
       this.selectedTasks = [];
     },
+    /*
+      View the task details of the selected task
+      @param (index) - index of the selected task
+    */
     viewTask(index) {
       this.$router.push({ name: "task-details", params: { id: index } });
     },
+    // Applies filter based on the selected criteria (Completed, Prioritized, or Both)
     applyFilter() {
       this.filteredTaskList;
     },
   },
   computed: {
+    // Sorts the tasks in the taskList based on their priority
     sortedTaskList() {
       return this.taskList.sort((a, b) => b.isPriority - a.isPriority);
     },
+    // Filters the taskList based on the selected criteria (Completed, Prioritized, or Both)
     filteredTaskList() {
       if (!this.selectedFilter) return this.sortedTaskList;
 
